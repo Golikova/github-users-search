@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.example.github_user_search.ui.auth.AuthViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryLight"
+        tools:context=".ui.auth.SigninActivity">
+
+    <Button
+        android:id="@+id/signin_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/rounded_corners"
+        android:drawableStart="@drawable/google_icon"
+        android:drawableLeft="@drawable/google_icon"
+        android:drawablePadding="8dp"
+        android:padding="8dp"
+        android:text="Войти через Google"
+        android:textAllCaps="false"
+        android:textColor="@color/GoogleTextColor"
+        android:textStyle="bold"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:onClick="@{viewmodel::onSigninClickButton}"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

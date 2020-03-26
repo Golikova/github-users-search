@@ -1,27 +1,31 @@
-package com.example.github_user_search.ui;
+package com.example.github_user_search.ui.home;
 
 import android.text.Editable
 import android.util.Log
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.github_user_search.data.entity.GithubUser
 import com.example.github_user_search.data.entity.User
-import com.example.github_user_search.data.repository.UserRepository
+import com.example.github_user_search.data.repository.GitHubUserRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 
-class UserSearchViewModel(
-        private val repository: UserRepository
+open class UserSearchViewModel(
+        private val repositoryGitHub: GitHubUserRepository
 ) : ViewModel() {
+
 
         var login : String? = null
         var searchListener: SearchListener? = null
-        var users = MutableLiveData<List<User>>()
+        var users = MutableLiveData<List<GithubUser>>()
 
-
-        fun refresh(s : String) {
+    fun refresh(s : String) {
 
            if (s.isNullOrEmpty()){
                users.postValue(listOfNotNull())
@@ -29,7 +33,7 @@ class UserSearchViewModel(
             }
 
             try {
-                val observableGitHubResponse = repository.getUsers(s.toString()!!)
+                val observableGitHubResponse = repositoryGitHub.getGithubUsers(s.toString()!!)
 
                 observableGitHubResponse
                     .observeOn(AndroidSchedulers.mainThread())

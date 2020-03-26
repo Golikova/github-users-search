@@ -1,17 +1,17 @@
-package com.example.github_user_search.ui
+package com.example.github_user_search.ui.home
 
-import android.R
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.github_user_search.data.entity.User
+import com.example.github_user_search.data.entity.GithubUser
 import com.example.github_user_search.databinding.ListItemBinding
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_item.view.*
 
 
-class RecyclerViewAdapter(private var items: List<User>,
-                          private var listener: OnItemClickListener)
+class RecyclerViewAdapter(private var items: List<GithubUser>,
+                          private var listener: OnItemClickListener
+)
     : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
 
@@ -19,10 +19,12 @@ class RecyclerViewAdapter(private var items: List<User>,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent?.context)
         val binding = ListItemBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(
+            binding
+        )
     }
 
-    fun replaceData(items: List<User>) {
+    fun replaceData(items: List<GithubUser>) {
         this.items = items
         notifyDataSetChanged()
     }
@@ -39,11 +41,11 @@ class RecyclerViewAdapter(private var items: List<User>,
     class ViewHolder(private var binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(user: User, listener: OnItemClickListener?) {
-            binding.user = user
+        fun bind(githubUser: GithubUser, listener: OnItemClickListener?) {
+            binding.user = githubUser
 
-            if (user.avatar_url != null && !user.avatar_url.isNullOrEmpty()) {
-                Picasso.with(itemView.context).load(user.avatar_url).into(itemView.avatar)
+            if (githubUser.avatar_url != null && !githubUser.avatar_url.isNullOrEmpty()) {
+                Picasso.with(itemView.context).load(githubUser.avatar_url).into(itemView.avatar)
             }
 
             if (listener != null) {

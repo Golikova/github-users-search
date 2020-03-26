@@ -1,28 +1,25 @@
 package com.example.github_user_search.data.entity
 
-import android.graphics.drawable.Drawable
-import com.google.gson.annotations.SerializedName
+import androidx.databinding.Bindable
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingMethod
+import androidx.databinding.InverseMethod
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.util.ArrayList
 
+const val CURRENT_USER_ID = 0
+
+@Entity
 data class User(
+    val googleId : String? = null,
+    val googleFirstName :String? = null,
+    val googleLastName :String? = null,
+    val googleEmail :String? = null,
+    val googleProfilePicUrl :String? = null,
+    val googleIdToken :String? = null
+    ) {
+    @PrimaryKey(autoGenerate = false)
+    var uid: Int = CURRENT_USER_ID
 
-    var login: String? = null,
-    var id: String? = null,
-    var node_id: String? = null,
-    var avatar_url: String? = null,
-    var gravatar_id: String? = null,
-    var url: String? = null,
-    var html_url: String? = null,
-    var followers_url: String? = null,
-    var following_url: String? = null,
-    var gists_url: String? = null,
-    var starred_url: String? = null,
-    var subscriptions_url: String? = null,
-    var organizations_url: String? = null,
-    var repos_url: String? = null,
-    var events_url: String? = null,
-    var received_events_url: String? = null,
-    var type: String? = null,
-    var site_admin: String? = null,
-    var score: String? = null
-
-)
+}

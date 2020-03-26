@@ -1,6 +1,4 @@
-package com.example.github_user_search.ui
-
-import com.example.github_user_search.data.entity.User
+package com.example.github_user_search.ui.home
 
 interface SearchListener {
     fun onStarted();

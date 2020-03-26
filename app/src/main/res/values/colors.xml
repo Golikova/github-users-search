@@ -7,4 +7,5 @@
     <color name="editTextBackground">#404348</color>
     <color name="textColor">#7E7F83</color>
     <color name="colorLightGrey">#EFEFEF</color>
+    <color name="GoogleTextColor">#444444</color>
 </resources>
