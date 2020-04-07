@@ -5,57 +5,34 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.example.github_user_search.R
-import com.example.github_user_search.data.entity.GithubUser
 import com.example.github_user_search.data.entity.User
-import com.example.github_user_search.data.network.GitHubApi
-import com.example.github_user_search.data.repository.GitHubUserRepository
 import com.example.github_user_search.databinding.ActivityMainBinding
 import com.example.github_user_search.databinding.HeaderBinding
-import com.example.github_user_search.util.hide
-import com.example.github_user_search.util.show
-import com.example.github_user_search.util.toast
-import kotlinx.android.synthetic.main.activity_main.*
-import androidx.appcompat.widget.Toolbar
 import com.example.github_user_search.ui.auth.SignoutActivity
 import com.example.github_user_search.ui.drawer.DrawerAdapter
+import com.example.github_user_search.ui.gitSearch.GithubUserSearchFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() ,
-    SearchListener,
-    RecyclerViewAdapter.OnItemClickListener {
+class MainActivity : AppCompatActivity() {
 
     lateinit var drawer : DrawerLayout
 
-    private val recyclerViewAdapter =
-        RecyclerViewAdapter(
-            listOf(),
-            this
-        )
-
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
-        val api = GitHubApi()
-        val gitHubUserRepository = GitHubUserRepository(api)
-        val factory = UserSearchViewModelFactory(gitHubUserRepository)
         val binding : ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        val viewModel = ViewModelProvider(this, factory).get(UserSearchViewModel::class.java)
-        binding.viewmodel = viewModel
-        viewModel.searchListener = this
-        binding.recyclerUsers.layoutManager = LinearLayoutManager(this);
-        binding.recyclerUsers.adapter = recyclerViewAdapter
-
-        viewModel.users?.observe(this,
-            Observer<List<GithubUser>> { it?.let{ recyclerViewAdapter.replaceData(it)} })
-
         setUpDrawer(binding)
+        var fragment: Fragment = GithubUserSearchFragment()
+        displaySelectedScreen(fragment)
 
     }
 
@@ -94,8 +71,6 @@ class MainActivity : AppCompatActivity() ,
         binding.navView.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.nav_logout -> {
-                    Log.d("nav", "logout pressed")
-
                     val intent = Intent(this, SignoutActivity::class.java)
                     startActivity(intent)
                     if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -112,6 +87,15 @@ class MainActivity : AppCompatActivity() ,
         }
     }
 
+    private fun displaySelectedScreen(fragment: Fragment) {
+        if (fragment != null) {
+            val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.container, fragment)
+            fragmentTransaction.commit()
+        }
+        drawer.closeDrawer(GravityCompat.START)
+    }
+
     override public fun onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
@@ -119,23 +103,5 @@ class MainActivity : AppCompatActivity() ,
             super.onBackPressed()
         }
     }
-
-    override fun onStarted() {
-        progress_bar.show()
-    }
-
-    override fun onSuccess() {
-        progress_bar.hide()
-    }
-
-    override fun onFailure(message: String) {
-        progress_bar.hide()
-        toast(message)
-    }
-
-    override fun onItemClick(position: Int) {
-        toast("Здесь пока не функционала...")
-    }
-
 
 }

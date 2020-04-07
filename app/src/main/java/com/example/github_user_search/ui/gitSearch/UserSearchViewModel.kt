@@ -1,19 +1,15 @@
-package com.example.github_user_search.ui.home;
+package com.example.github_user_search.ui.gitSearch;
 
 import android.text.Editable
 import android.util.Log
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.github_user_search.data.entity.GithubUser
-import com.example.github_user_search.data.entity.User
 import com.example.github_user_search.data.repository.GitHubUserRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.IOException
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 open class UserSearchViewModel(
@@ -55,7 +51,7 @@ open class UserSearchViewModel(
     fun afterTextChanged(s: Editable?) {
 
         var timer = Timer()
-        val delay: Long = 1000
+        val delay: Long = 100
         Log.d("LOGIN", s.toString())
         timer.cancel()
         timer = Timer()
